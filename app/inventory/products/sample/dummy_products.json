@@ -1,26 +1,26 @@
 [
-    {
-      "id": 1,
-      "name": "コットン100%バックリボンティアードワンピース（黒）",
-      "price": 6900,
-      "description": "大人の愛らしさを引き立てる、ナチュラルな風合い。リラックスxトレンドを楽しめる、上品なティアードワンピース。"
-    },
-    {
-      "id": 2,
-      "name": "ライトストレッチカットソー（ネイビー）",
-      "price": 2980,
-      "description": "しなやかな肌触りが心地よい、程よいフィット感のカットソー。ビジネスカジュアルにも普段使いにも使える、ベーシックなデザイン。"
-    },
-    {
-      "id": 3,
-      "name": "ベルト付きデニムパンツ（ブルー）",
-      "price": 5980,
-      "description": "定番のデニムパンツに、フェミニンなベルトをプラスしたスタイリッシュなアイテム。カジュアルにもきれいめにも合わせやすい。"
-    },
-    {
-        "id": 4,
-        "name": "レースフレアスカート（ホワイト）",
-        "price": 4980,
-        "description": "エレガントな雰囲気を醸し出すレーススカート。裏地付きで透け感も抑えられ、通年使えるおすすめアイテム"
-      }
+  {
+    "id": 1,
+    "name": "100% Cotton Back Ribbon Tiered Dress (Black)",
+    "price": 690,
+    "description": "A natural texture that accentuates the loveliness of adulthood. An elegant tiered dress that allows you to enjoy the relaxed trend."
+  },
+  {
+    "id": 2,
+    "name": "Light Stretch Cutsew (Navy)",
+    "price": 298,
+    "description": "A cutsew with a comfortable fit and a supple touch. A basic design that can be used for both business casual and everyday wear."
+  },
+  {
+    "id": 3,
+    "name": "Belted Denim Pants (Blue)",
+    "price": 598,
+    "description": "A stylish item that adds a feminine belt to classic denim pants. Easy to match with both casual and clean looks."
+  },
+  {
+    "id": 4,
+    "name": "Lace Flare Skirt (White)",
+    "price": 498,
+    "description": "A lace skirt that exudes an elegant atmosphere. Lined to reduce transparency, a recommended item for all seasons."
+  }
 ]
