@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 type ProductData = {
     id: number | null;
@@ -36,7 +37,25 @@ type ProductData = {
     description: string;
 };
 
+function useRequireAuth(redirectUrl = '/login') {
+    const router = useRouter();
+    useEffect(() => {
+        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        if (!isAuthenticated) {
+            router.push(redirectUrl);
+        }
+    }, [router]);
+}
+
 export default function Page() {
+    useRequireAuth();
+
+    const router = useRouter();
+    const handleLogout = () => {
+        localStorage.removeItem('isAuthenticated');
+        router.push('/login');
+    };
+
     const {
     register,
     handleSubmit,
@@ -44,7 +63,7 @@ export default function Page() {
     formState: { errors },
     } = useForm();
 
-    // 読込データを保持
+    // Holds read data
     const [data, setData] = useState<Array<ProductData>>([]);
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState<AlertColor>('success');
@@ -67,9 +86,9 @@ export default function Page() {
         })
     }, [open])
 
-    // 登録データを保持
+    // Holds registration data
     const [id, setId] = useState<number | null>(0);
-    // submit時のactionを分岐させる
+    // Branching action on submit
     const [action, setAction] = useState<string>("");
     const onSubmit = (event: any): void => {
         const data: ProductData = {
@@ -78,7 +97,7 @@ export default function Page() {
             price: Number(event.price),
             description: event.description,
         };
-        // actionによってHTTPメソッドと使用するパラメーターを切り替える
+        // Switch HTTP methods and parameters to be used depending on action
         if (action === "add") {
             handleAdd(data);
         } else if (action === "update") {
@@ -94,7 +113,7 @@ export default function Page() {
         }
     };
 
-    // 登録処理
+    // Registration process
     const handleShowNewRow = () => {
         setId(null);
         reset({
@@ -113,7 +132,7 @@ export default function Page() {
         setId(0);
     };
 
-    // 更新・削除処理
+    // Update and delete process
     const handleEditRow = (id: number | null) => {
     const selectedProduct: ProductData = data.find((v) => v.id === id) as ProductData;
     setId(selectedProduct.id);
@@ -127,7 +146,9 @@ export default function Page() {
         setId(0);
     };
     const handleEdit = (data: ProductData) => {
-        result('success', 'The Product has been updated')
+        axios.put(`/api/inventory/products/${data.id}`, data).then((response) => {
+            result('success', 'The Product has been updated')
+        });
         setId(0);
     };
     const handleDelete = (id: number) => {
@@ -142,7 +163,15 @@ export default function Page() {
             <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
                 <Alert severity={severity}>{message}</Alert>
             </Snackbar>
-            <Typography variant="h5">Products</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h5">Products</Typography>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Link href="https://docs.google.com/document/d/1liY7OFoFqKqusu9JC6j6TSgvyt8FsfMQnpHxOxuKMaA/" passHref rel="noopener noreferrer" target="_blank">
+                        <Button variant="contained" color="primary">Help</Button>
+                    </Link>
+                    <Button onClick={handleLogout} variant="contained" color="warning">Logout</Button>
+                </Box>
+            </Box>
             <Button
                 variant="contained"
                 startIcon={<AddIcon />}
@@ -217,7 +246,7 @@ export default function Page() {
                                         {...register("description")}
                                     />
                                 </TableCell>
-                                {/* ルーティングのために追加 */}
+                                {/* Added for routing */}
                                 <TableCell></TableCell>
                                 <TableCell>
                                     <Button
